@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,15 +8,23 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:text="Login"
+        android:layout_width="176dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/logo"
         android:textAlignment="center"
         android:textColor="#000"
-        android:paddingVertical="70dp"
-        android:textSize="30dp"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
         android:fontFamily="cursive"
-        android:layout_marginBottom="25dp"/>
+        android:text="Sign Up"
+        android:textAlignment="center"
+        android:textSize="30dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -25,7 +32,6 @@
         android:text="User name"
         android:layout_marginHorizontal="30dp"
         android:textColor="@color/black"/>
-
 
     <EditText
         android:layout_width="match_parent"
@@ -64,6 +70,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/btn_register"
         android:text="Register"
         android:layout_marginHorizontal="30dp"
         android:background="@drawable/button_bg"/>

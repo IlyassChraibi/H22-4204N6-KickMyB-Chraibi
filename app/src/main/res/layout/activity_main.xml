@@ -8,15 +8,23 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:text="Login"
+        android:layout_width="176dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/logo"
         android:textAlignment="center"
         android:textColor="#000"
-        android:paddingVertical="70dp"
-        android:textSize="30dp"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
         android:fontFamily="cursive"
-        android:layout_marginBottom="25dp"/>
+        android:text="Sign In"
+        android:textAlignment="center"
+        android:textSize="30dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -49,14 +57,18 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/btn_login"
         android:text="Login"
         android:layout_marginHorizontal="30dp"
         android:background="@drawable/button_bg"/>
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:id="@+id/btn_register_main"
+        android:background="?android:attr/selectableItemBackground"
         android:text="No account yet ? Create an Account"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="8dp" />
 </LinearLayout>
