@@ -1,10 +1,13 @@
 package com.example.kickmyb;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -22,6 +25,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView tvPourcentage;
         public TextView tvDateLimite;
         public TextView tvTempsEcoule;
+
+        public CardView card;
+
         //public TextView tvAge;
         public MyViewHolder(LinearLayout v) {
             super(v);
@@ -29,6 +35,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             tvPourcentage = v.findViewById(R.id.tvPourcentage);
             tvDateLimite = v.findViewById(R.id.tvDateLimite);
             tvTempsEcoule = v.findViewById(R.id.tvTempsEcoule);
+
+            card = v.findViewById(R.id.card_item);
             //tvAge = v.findViewById(R.id.tvAge);
         }
     }
@@ -59,6 +67,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.tvPourcentage.setText(""+personneCourante.pourcentage);
         holder.tvDateLimite.setText(""+personneCourante.dateLimite);
         holder.tvTempsEcoule.setText(""+personneCourante.tempsEcoule);// TODO setText sur un integer crash
+
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( view.getContext(), ConsultationActivity.class);
+                view.getContext().startActivity(intent);
+            }
+        });
 
     }
 
