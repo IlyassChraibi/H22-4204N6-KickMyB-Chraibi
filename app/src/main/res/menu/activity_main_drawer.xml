@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/Accueil"
+            android:icon="@drawable/ic_launcher_background"
+            android:title="Accueil" />
+    </group>
+
+    <group >
+        <item android:id="@+id/Ajout"
+            android:icon="@drawable/ic_launcher_background"
+            android:title="Ajout de tache" />
+    </group>
+
+            <item android:id="@+id/Deconnexion"
+                android:title="Deconnexion" />
+</menu>
