@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
 import com.example.kickmyb.databinding.ActivityRegisterBinding;
 import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
@@ -33,12 +35,16 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Service service = RetrofitUtil.get();
                 SignupRequest signupRequest = new SignupRequest();
-                signupRequest.username = "ilyas";
-                signupRequest.password = "salut123";
+                signupRequest.username = binding.userUp.getText().toString();
+                signupRequest.password = binding.passUp.getText().toString();
+                if (binding.passUp.getText().toString().equals(binding.confirmation.getText().toString())) {
+
                 service.SignUp(signupRequest).enqueue(new Callback<SigninResponse>() {
                     @Override
                     public void onResponse(Call<SigninResponse> call, Response<SigninResponse> response) {
                         if (response.isSuccessful()) {
+                            Singleton singleton = Singleton.getInstance();
+                            singleton.username = response.body().username;
                             Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
                             startActivity(i);
                             Log.i("reponse",response.body().toString());
@@ -47,12 +53,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<SigninResponse> call, Throwable t) {
-
+                        Toast.makeText(RegisterActivity.this, "yametekurasai", Toast.LENGTH_SHORT).show();
                     }
                 });
 
+                }
             }
         });
-
     }
 }

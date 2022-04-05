@@ -19,7 +19,7 @@ public interface Service {
         Call<SigninResponse> SignUp(@Body SignupRequest signupRequest);
 
         @POST("/api/id/signin")
-        Call<SigninResponse> SignIn();
+        Call<SigninResponse> SignIn(@Body SigninRequest signinRequest);
 
         @GET("users/{utilisateur}/repos")
         Call<String> listReposString(@Path("utilisateur") String utilisateur);

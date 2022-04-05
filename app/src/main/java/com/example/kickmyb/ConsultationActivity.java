@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,8 +29,13 @@ public class ConsultationActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        NavigationView nv = binding.navView;
         DrawerLayout dl = binding.drawerLayout;
+
+        NavigationView nv = (NavigationView) binding.navView;
+        View headerView = nv.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.textView);
+        Singleton singleton = Singleton.getInstance();
+        navUsername.setText(singleton.username);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         abdt = new ActionBarDrawerToggle(this,dl,R.string.open_bar,R.string.close_bar){

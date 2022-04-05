@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
+        android:id="@+id/userUp"
         android:layout_marginBottom="30dp" />
 
     <TextView
@@ -51,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="30dp"
+        android:id="@+id/passUp"
         android:inputType="textPassword"/>
 
     <TextView
@@ -65,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="30dp"
+        android:id="@+id/confirmation"
         android:inputType="textPassword"/>
 
     <Button
