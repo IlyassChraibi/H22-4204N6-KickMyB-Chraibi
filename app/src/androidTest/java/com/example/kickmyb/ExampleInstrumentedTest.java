@@ -1,6 +1,7 @@
 package com.example.kickmyb;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -10,6 +11,14 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+import com.example.kickmyb.http.RetrofitUtil;
+import com.example.kickmyb.http.Service;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
 /**
  * Instrumented test, which will execute on an Android device.
  *
@@ -18,9 +27,11 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
     @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.kickmyb", appContext.getPackageName());
+    public void testSimple() throws IOException {
+        Service service = RetrofitUtil.get();
+        Call<String> call = service.listReposString("jorisdeguet");
+        Response<String> response = call.execute();
+        String resultat = response.body();
+        Log.i("RETROFIT", resultat);
     }
 }
