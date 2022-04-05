@@ -18,7 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.kickmyb.databinding.ActivityCreationBinding;
+import com.example.kickmyb.http.RetrofitUtil;
+import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreationActivity extends AppCompatActivity {
     private ActivityCreationBinding binding;
@@ -71,6 +77,8 @@ public class CreationActivity extends AppCompatActivity {
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Service service = RetrofitUtil.get();
+
                 switch (item.getItemId()){
                     case R.id.Accueil:
                         Intent i = new Intent(CreationActivity.this, HomeActivity.class);
@@ -83,8 +91,20 @@ public class CreationActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.Deconnexion:
-                        Intent i3 = new Intent(CreationActivity.this, MainActivity.class);
-                        startActivity(i3);
+                        service.SignOut().enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if (response.isSuccessful()){
+                                    Intent i3 = new Intent(CreationActivity.this, MainActivity.class);
+                                    startActivity(i3);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                Toast.makeText(CreationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         return true;
                 }
                 dl.closeDrawers();

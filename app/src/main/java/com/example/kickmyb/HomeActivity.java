@@ -20,12 +20,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kickmyb.databinding.ActivityHomeBinding;
+import com.example.kickmyb.http.RetrofitUtil;
+import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
@@ -70,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            Service service = RetrofitUtil.get();
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
@@ -84,8 +91,20 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.Deconnexion:
-                        Intent i3 = new Intent(HomeActivity.this, MainActivity.class);
-                        startActivity(i3);
+                        service.SignOut().enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if (response.isSuccessful()){
+                                    Intent i3 = new Intent(HomeActivity.this, MainActivity.class);
+                                    startActivity(i3);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                Toast.makeText(HomeActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         return true;
                 }
                 dl.closeDrawers();

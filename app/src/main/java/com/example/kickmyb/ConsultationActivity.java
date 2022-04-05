@@ -15,7 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.kickmyb.databinding.ActivityConsultationBinding;
+import com.example.kickmyb.http.RetrofitUtil;
+import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConsultationActivity extends AppCompatActivity {
     private ActivityConsultationBinding binding;
@@ -57,6 +63,7 @@ public class ConsultationActivity extends AppCompatActivity {
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Service service = RetrofitUtil.get();
                 switch (item.getItemId()){
                     case R.id.Accueil:
                         Intent i = new Intent(ConsultationActivity.this, HomeActivity.class);
@@ -69,8 +76,20 @@ public class ConsultationActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.Deconnexion:
-                        Intent i3 = new Intent(ConsultationActivity.this, MainActivity.class);
-                        startActivity(i3);
+                        service.SignOut().enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if (response.isSuccessful()){
+                                    Intent i3 = new Intent(ConsultationActivity.this, MainActivity.class);
+                                    startActivity(i3);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                Toast.makeText(ConsultationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         return true;
                 }
                 //Toast.makeText(ConsultationActivity.this, "Texte : "+ item.toString() , Toast.LENGTH_SHORT).show();
