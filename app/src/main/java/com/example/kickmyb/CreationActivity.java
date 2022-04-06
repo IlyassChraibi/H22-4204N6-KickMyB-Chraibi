@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,12 @@ import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
 
+import org.kickmyb.transfer.AddTaskRequest;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,6 +37,8 @@ import retrofit2.Response;
 public class CreationActivity extends AppCompatActivity {
     private ActivityCreationBinding binding;
     private ActionBarDrawerToggle abdt;
+    private EditText taskName;
+    private DatePicker dateLimite;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +58,8 @@ public class CreationActivity extends AppCompatActivity {
         binding = ActivityCreationBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        taskName = (EditText) findViewById(R.id.taskName);
+        dateLimite = (DatePicker) findViewById(R.id.dateLimite);
 
         DrawerLayout dl = binding.drawerLayout;
 
@@ -77,7 +89,7 @@ public class CreationActivity extends AppCompatActivity {
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Service service = RetrofitUtil.get();
+
 
                 switch (item.getItemId()){
                     case R.id.Accueil:
@@ -91,6 +103,7 @@ public class CreationActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.Deconnexion:
+                        Service service = RetrofitUtil.get();
                         service.SignOut().enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
@@ -111,15 +124,35 @@ public class CreationActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(CreationActivity.this, HomeActivity.class);
-                startActivity(i);
+                Service service = RetrofitUtil.get();
+                AddTaskRequest taskRequest = new AddTaskRequest();
+                //DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date(System.currentTimeMillis());
+                taskRequest.deadline = date;
+                taskRequest.name = taskName.getText().toString();
+                service.AddTask(taskRequest).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.isSuccessful()){
+                                Intent i = new Intent(CreationActivity.this, HomeActivity.class);
+                                startActivity(i);
+                            }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(CreationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
+
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 

@@ -22,10 +22,10 @@ public interface Service {
         @POST("/api/id/signin")
         Call<SigninResponse> SignIn(@Body SigninRequest signinRequest);
 
-        @POST("api/id/signout")
+        @POST("/api/id/signout")
         Call<String> SignOut();
 
-        @POST("/api/id/add")
+        @POST("/api/add")
         Call<Void> AddTask(@Body AddTaskRequest task);
 
 

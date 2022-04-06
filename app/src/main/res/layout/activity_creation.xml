@@ -24,6 +24,7 @@
 
 
     <EditText
+        android:id="@+id/taskName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
@@ -31,6 +32,7 @@
 
 
     <DatePicker
+        android:id="@+id/dateLimite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
