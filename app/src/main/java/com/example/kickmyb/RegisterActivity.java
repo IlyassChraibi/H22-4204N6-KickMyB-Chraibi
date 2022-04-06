@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<SigninResponse> call, Throwable t) {
-                        Toast.makeText(RegisterActivity.this, "yametekurasai", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "erreur", Toast.LENGTH_SHORT).show();
                     }
                 });
 

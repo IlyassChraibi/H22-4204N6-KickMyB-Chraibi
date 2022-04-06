@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kickmyb.http.RetrofitUtil;
+import com.example.kickmyb.http.Service;
+
 import org.kickmyb.transfer.HomeItemResponse;
 
 import java.util.ArrayList;
@@ -75,9 +78,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent( view.getContext(), ConsultationActivity.class);
-                intent.putExtra("texte",list.get(position).name);
 
+                Intent intent = new Intent( view.getContext(), ConsultationActivity.class);
+                intent.putExtra("id",list.get(position).id.longValue());
+/*
+                intent.putExtra("texte",list.get(position).name);
                 //intent.putExtra("datelimit",list.get(position).dateLimite);
 
                 intent.putExtra("date", list.get(position).deadline.getTime());
@@ -85,8 +90,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 d.setTime(intent.getLongExtra("date", -1));
 
                 intent.putExtra("percentage",list.get(position).percentageDone);
-                intent.putExtra("time",list.get(position).percentageTimeSpent);
+                intent.putExtra("time",list.get(position).percentageTimeSpent);*/
                 view.getContext().startActivity(intent);
+
             }
         });
 

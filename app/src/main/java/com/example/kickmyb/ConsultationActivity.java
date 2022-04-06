@@ -19,6 +19,8 @@ import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
 
+import org.kickmyb.transfer.TaskDetailResponse;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -98,13 +100,23 @@ public class ConsultationActivity extends AppCompatActivity {
             }
         });
 
-        binding.txtNom.setText(getIntent().getStringExtra("texte"));
-        int v = getIntent().getIntExtra("percentage",0);
-        binding.txtPercentage.setText(""+v);
-        int vv = getIntent().getIntExtra("time",0);
-        binding.txtTimeElapsed.setText(""+vv);
+        Service service = RetrofitUtil.get();
+        service.detail(getIntent().getLongExtra("id",0)).enqueue(new Callback<TaskDetailResponse>() {
+            @Override
+            public void onResponse(Call<TaskDetailResponse> call, Response<TaskDetailResponse> response) {
+                if (response.isSuccessful()) {
+                   binding.txtNom.setText(response.body().name);
+                   binding.txtDateLimite.setText(response.body().deadline.toString());
+                   binding.txtPercentage.setText(String.valueOf(response.body().percentageDone));
+                   binding.txtTimeElapsed.setText(String.valueOf(response.body().percentageTimeSpent));
+                }
+            }
 
-        binding.txtDateLimite.setText(""+ (int) getIntent().getLongExtra("date",0));
+            @Override
+            public void onFailure(Call<TaskDetailResponse> call, Throwable t) {
+                Toast.makeText(ConsultationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
