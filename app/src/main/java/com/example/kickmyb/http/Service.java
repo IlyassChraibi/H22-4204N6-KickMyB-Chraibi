@@ -3,9 +3,11 @@ package com.example.kickmyb.http;
 import com.example.kickmyb.task;
 
 import org.kickmyb.transfer.AddTaskRequest;
+import org.kickmyb.transfer.HomeItemResponse;
 import org.kickmyb.transfer.SigninRequest;
 import org.kickmyb.transfer.SigninResponse;
 import org.kickmyb.transfer.SignupRequest;
+import org.kickmyb.transfer.TaskDetailResponse;
 
 import java.util.List;
 
@@ -28,5 +30,9 @@ public interface Service {
         @POST("/api/add")
         Call<Void> AddTask(@Body AddTaskRequest task);
 
+        @GET("/api/home")
+        Call<List<HomeItemResponse>> GetList();
 
+        @GET(" /api/detail/{id}")
+        Call<TaskDetailResponse> detail(@Path("id") Long id);
 }

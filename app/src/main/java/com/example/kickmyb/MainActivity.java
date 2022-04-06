@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(i);
                             Log.i("reponse",response.body().toString());
                         }
+                        else
+                        {
+                            Toast.makeText(MainActivity.this, "Existe pas", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override

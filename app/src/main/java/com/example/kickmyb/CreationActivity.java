@@ -140,6 +140,10 @@ public class CreationActivity extends AppCompatActivity {
                                 Intent i = new Intent(CreationActivity.this, HomeActivity.class);
                                 startActivity(i);
                             }
+                            else
+                            {
+                                Toast.makeText(CreationActivity.this, "Existe déjà", Toast.LENGTH_SHORT).show();
+                            }
                     }
 
                     @Override
@@ -147,6 +151,7 @@ public class CreationActivity extends AppCompatActivity {
                         Toast.makeText(CreationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
         });
     }

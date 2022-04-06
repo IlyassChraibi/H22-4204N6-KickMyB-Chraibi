@@ -11,12 +11,14 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.kickmyb.transfer.HomeItemResponse;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    public List<task> list;
+    public List<HomeItemResponse> list;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -64,26 +66,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        task personneCourante = list.get(position);
-        holder.tvNom.setText(personneCourante.nom);
-        holder.tvPourcentage.setText(""+personneCourante.pourcentage);
-        holder.tvDateLimite.setText(""+personneCourante.dateLimite);
-        holder.tvTempsEcoule.setText(""+personneCourante.tempsEcoule);// TODO setText sur un integer crash
+        HomeItemResponse personneCourante = list.get(position);
+        holder.tvNom.setText(personneCourante.name);
+        holder.tvPourcentage.setText(""+personneCourante.percentageDone);
+        holder.tvDateLimite.setText(""+personneCourante.deadline);
+        holder.tvTempsEcoule.setText(""+personneCourante.percentageTimeSpent);// TODO setText sur un integer crash
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( view.getContext(), ConsultationActivity.class);
-                intent.putExtra("texte",list.get(position).nom);
+                intent.putExtra("texte",list.get(position).name);
 
                 //intent.putExtra("datelimit",list.get(position).dateLimite);
 
-                intent.putExtra("date", list.get(position).dateLimite.getTime());
+                intent.putExtra("date", list.get(position).deadline.getTime());
                 Date d = new Date();
                 d.setTime(intent.getLongExtra("date", -1));
 
-                intent.putExtra("percentage",list.get(position).pourcentage);
-                intent.putExtra("time",list.get(position).tempsEcoule);
+                intent.putExtra("percentage",list.get(position).percentageDone);
+                intent.putExtra("time",list.get(position).percentageTimeSpent);
                 view.getContext().startActivity(intent);
             }
         });

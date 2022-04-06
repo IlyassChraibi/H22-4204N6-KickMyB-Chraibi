@@ -24,10 +24,14 @@ import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
 
+import org.kickmyb.transfer.HomeItemResponse;
+import org.kickmyb.transfer.SigninRequest;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -117,7 +121,26 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void remplirRecycler() {
-        Date date = new Date(System.currentTimeMillis());
+        Service service = RetrofitUtil.get();
+        service.GetList().enqueue(new Callback<List<HomeItemResponse>>() {
+            @Override
+            public void onResponse(Call<List<HomeItemResponse>> call, Response<List<HomeItemResponse>> response) {
+                if (response.isSuccessful()) {
+                    adapter.list = response.body();
+                    adapter.notifyDataSetChanged();
+                }
+                else{
+                    Log.e("home","Erreur");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HomeItemResponse>> call, Throwable t) {
+                Log.e("home","Erreur");
+            }
+        });
+
+       /* Date date = new Date(System.currentTimeMillis());
         for (int i = 0 ; i < 200 ; i++) {
             task p = new task();
             p.nom = "Bob " + i;
@@ -129,7 +152,7 @@ public class HomeActivity extends AppCompatActivity {
 
             Log.i("DATE", p.dateLimite.toString());
         }
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
     }
 
     private void initRecycler() {
