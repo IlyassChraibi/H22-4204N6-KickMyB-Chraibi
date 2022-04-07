@@ -134,8 +134,8 @@ public class CreationActivity extends AppCompatActivity {
                 taskRequest.deadline = date;
                 taskRequest.name = taskName.getText().toString();
                 service.AddTask(taskRequest).enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
                             if (response.isSuccessful()){
                                 Intent i = new Intent(CreationActivity.this, HomeActivity.class);
                                 startActivity(i);
