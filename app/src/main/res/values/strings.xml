@@ -2,4 +2,7 @@
     <string name="app_name">KickMyB</string>
     <string name="open_bar">Close me</string>
     <string name="close_bar">Open me</string>
+    <String name = "username">username</String>
+    <String name = "password">password</String>
+    <String name = "login">login</String>
 </resources>
