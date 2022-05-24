@@ -1,5 +1,6 @@
 package com.example.kickmyb;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ConsultationActivity extends AppCompatActivity {
+    ProgressDialog progressD;
     private ActivityConsultationBinding binding;
     private ActionBarDrawerToggle abdt;
     @Override
@@ -78,9 +80,13 @@ public class ConsultationActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.Deconnexion:
+                        progressD = ProgressDialog.show(ConsultationActivity.this, getString(R.string.wait),
+                                getString(R.string.wait_msg), true);
+                        //new DialogTask<>().execute();
                         service.SignOut().enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
+                                progressD.dismiss();
                                 if (response.isSuccessful()){
                                     Intent i3 = new Intent(ConsultationActivity.this, MainActivity.class);
                                     startActivity(i3);
@@ -89,6 +95,7 @@ public class ConsultationActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<String> call, Throwable t) {
+                                progressD.dismiss();
                                 Toast.makeText(ConsultationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
                             }
                         });
