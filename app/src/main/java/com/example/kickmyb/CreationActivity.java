@@ -1,10 +1,12 @@
 package com.example.kickmyb;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -38,6 +40,7 @@ public class CreationActivity extends AppCompatActivity {
     private ActivityCreationBinding binding;
     private ActionBarDrawerToggle abdt;
     private EditText taskName;
+    ProgressDialog progressD;
     private DatePicker dateLimite;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,19 +106,30 @@ public class CreationActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.Deconnexion:
+                        progressD = ProgressDialog.show(CreationActivity.this, getString(R.string.wait),
+                                getString(R.string.wait_msg), true);
                         Service service = RetrofitUtil.get();
                         service.SignOut().enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
+                                progressD.dismiss();
                                 if (response.isSuccessful()){
                                     Intent i3 = new Intent(CreationActivity.this, MainActivity.class);
                                     startActivity(i3);
+                                }
+                                else {
+                                    if (response.code() == 403){
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<String> call, Throwable t) {
-                                Toast.makeText(CreationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
                             }
                         });
                         return true;
@@ -133,22 +147,31 @@ public class CreationActivity extends AppCompatActivity {
                 Date date = new Date(System.currentTimeMillis());
                 taskRequest.deadline = date;
                 taskRequest.name = taskName.getText().toString();
+                progressD = ProgressDialog.show(CreationActivity.this, getString(R.string.wait),
+                        getString(R.string.wait_msg), true);
                 service.AddTask(taskRequest).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
+                            progressD.dismiss();
                             if (response.isSuccessful()){
                                 Intent i = new Intent(CreationActivity.this, HomeActivity.class);
                                 startActivity(i);
                             }
-                            else
-                            {
-                                Toast.makeText(CreationActivity.this, "Existe déjà", Toast.LENGTH_SHORT).show();
+                            else {
+                                if (response.code() == 403){
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Toast.makeText(CreationActivity.this, getString(R.string.exist), Toast.LENGTH_SHORT).show();
+                                }
                             }
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(CreationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                        //Log.i("RETROFIT", t.getMessage());
+                        progressD.dismiss();
+                        Toast.makeText(CreationActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
                 });
 

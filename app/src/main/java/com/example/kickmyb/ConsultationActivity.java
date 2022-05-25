@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -82,7 +83,6 @@ public class ConsultationActivity extends AppCompatActivity {
                     case R.id.Deconnexion:
                         progressD = ProgressDialog.show(ConsultationActivity.this, getString(R.string.wait),
                                 getString(R.string.wait_msg), true);
-                        //new DialogTask<>().execute();
                         service.SignOut().enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
@@ -91,10 +91,19 @@ public class ConsultationActivity extends AppCompatActivity {
                                     Intent i3 = new Intent(ConsultationActivity.this, MainActivity.class);
                                     startActivity(i3);
                                 }
+                                else {
+                                    if (response.code() == 403){
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
+                                    }
+                                }
                             }
 
                             @Override
                             public void onFailure(Call<String> call, Throwable t) {
+                                //Log.i("RETROFIT", t.getMessage());
                                 progressD.dismiss();
                                 Toast.makeText(ConsultationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
                             }
@@ -107,21 +116,33 @@ public class ConsultationActivity extends AppCompatActivity {
             }
         });
 
+        progressD = ProgressDialog.show(ConsultationActivity.this, getString(R.string.wait),
+                getString(R.string.wait_msg), true);
         Service service = RetrofitUtil.get();
         service.detail(getIntent().getLongExtra("id",0)).enqueue(new Callback<TaskDetailResponse>() {
             @Override
             public void onResponse(Call<TaskDetailResponse> call, Response<TaskDetailResponse> response) {
+                progressD.dismiss();
                 if (response.isSuccessful()) {
                    binding.txtNom.setText(response.body().name);
                    binding.txtDateLimite.setText(response.body().deadline.toString());
                    binding.txtPercentage.setText(String.valueOf(response.body().percentageDone));
                    binding.txtTimeElapsed.setText(String.valueOf(response.body().percentageTimeSpent));
                 }
+                else {
+                    if (response.code() == 403){
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<TaskDetailResponse> call, Throwable t) {
-                Toast.makeText(ConsultationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                progressD.dismiss();
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
             }
         });
     }

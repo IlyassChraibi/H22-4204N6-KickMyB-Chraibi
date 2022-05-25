@@ -2,6 +2,7 @@ package com.example.kickmyb;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    ProgressDialog progressD;
     private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 signinRequest.username = binding.userIn.getText().toString();
                 signinRequest.password = binding.passIn.getText().toString();
 
+                progressD = ProgressDialog.show(MainActivity.this, getString(R.string.wait),
+                        getString(R.string.wait_msg), true);
+
                 service.SignIn(signinRequest).enqueue(new Callback<SigninResponse>() {
                     @Override
                     public void onResponse(Call<SigninResponse> call, Response<SigninResponse> response) {
+                        progressD.dismiss();
                         if (response.isSuccessful()) {
                             Singleton singleton = Singleton.getInstance();
                             singleton.username = response.body().username;
@@ -58,15 +64,22 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(i);
                             Log.i("reponse",response.body().toString());
                         }
-                        else
-                        {
-                            Toast.makeText(MainActivity.this, "Existe pas", Toast.LENGTH_SHORT).show();
+                        else {
+
+                            if (response.code() == 403){
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.wrong) , Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SigninResponse> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                        //Log.i("RETROFIT", t.getMessage());
+                        progressD.dismiss();
+                        Toast.makeText(MainActivity.this, getResources().getString(R.string.error) , Toast.LENGTH_SHORT).show();
                     }
                 });
             }

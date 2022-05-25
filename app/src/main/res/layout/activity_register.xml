@@ -22,14 +22,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
         android:fontFamily="cursive"
-        android:text="Sign Up"
+        android:text="@string/signUp"
         android:textAlignment="center"
         android:textSize="30dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User name"
+        android:text="@string/username"
         android:layout_marginHorizontal="30dp"
         android:textColor="@color/black"/>
 
@@ -43,7 +43,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:text="@string/password"
         android:layout_marginHorizontal="30dp"
         android:textColor="@color/black"/>
 
@@ -58,7 +58,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm Password"
+        android:text="@string/password_confirmation"
         android:layout_marginHorizontal="30dp"
         android:textColor="@color/black"/>
 
@@ -74,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_register"
-        android:text="Register"
+        android:text="@string/register"
         android:layout_marginHorizontal="30dp"
         android:background="@drawable/button_bg"/>
 

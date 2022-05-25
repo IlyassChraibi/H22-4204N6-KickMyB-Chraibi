@@ -11,6 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="58dp"
         android:layout_weight="1"
-        android:text="Nom d'utilisateur" />
+        android:text="@string/username" />
 
 </LinearLayout>

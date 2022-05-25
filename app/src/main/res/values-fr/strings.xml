@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KickMyB</string>
+    <string name="open_bar">Close me</string>
+    <string name="close_bar">Open me</string>
+    <string name="wait">Attendez un moment</string>
+    <string name="wait_msg">Chargement...</string>
+    <string name="not_log">Vous n\'êtes pas connectés</string>
+
+    <string name="wrong">Mauvais mot de passe ou nom d\'utilisateur</string>
+    <string name="error">Une erreur est survenue</string>
+    <string name="exist">Existe déjà</string>
+
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="register">Inscription</string>
+    <string name="password_confirmation">Mot de passe confirmé</string>
+    <string name="signUp">Inscription</string>
+
+    <string name="percentage">Poucentage à modifier</string>
+    <string name="task">Nom de la tâche</string>
+    <string name="add">Ajouter</string>
+
+    <string name="login">Connexion</string>
+    <string name="account">Pas de compte encore ? Créer un compte</string>
+    <string name="signIn">Connexion</string>
+
+    <string name="addTask">Ajouter une tâche</string>
+    <string name="home">Accueil</string>
+    <string name="logout">Déconnexion</string>
+
+</resources>

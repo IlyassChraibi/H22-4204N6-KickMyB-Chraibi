@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
+    ProgressDialog progressD;
     private ActivityHomeBinding binding;
     private ActionBarDrawerToggle abdt;
     MyAdapter adapter;
@@ -95,18 +97,31 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.Deconnexion:
+                        progressD = ProgressDialog.show(HomeActivity.this, getString(R.string.wait),
+                                getString(R.string.wait_msg), true);
                         service.SignOut().enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
+                                progressD.dismiss();
                                 if (response.isSuccessful()){
                                     Intent i3 = new Intent(HomeActivity.this, MainActivity.class);
                                     startActivity(i3);
+                                }
+                                else {
+                                    if (response.code() == 403){
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<String> call, Throwable t) {
-                                Toast.makeText(HomeActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                                progressD.dismiss();
+                                Log.i("RETROFIT", t.getMessage());
+                                Toast.makeText(HomeActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                             }
                         });
                         return true;
@@ -121,22 +136,32 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void remplirRecycler() {
+        progressD = ProgressDialog.show(HomeActivity.this, getString(R.string.wait),
+                getString(R.string.wait_msg), true);
         Service service = RetrofitUtil.get();
         service.GetList().enqueue(new Callback<List<HomeItemResponse>>() {
             @Override
             public void onResponse(Call<List<HomeItemResponse>> call, Response<List<HomeItemResponse>> response) {
                 if (response.isSuccessful()) {
+                    progressD.dismiss();
                     adapter.list = response.body();
                     adapter.notifyDataSetChanged();
                 }
-                else{
-                    Log.e("home","Erreur");
+                else {
+                    if (response.code() == 403){
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<List<HomeItemResponse>> call, Throwable t) {
-                Log.e("home","Erreur");
+                progressD.dismiss();
+                //Log.i("RETROFIT", t.getMessage());
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
             }
         });
 
