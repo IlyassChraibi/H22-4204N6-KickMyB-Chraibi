@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.kickmyb.databinding.ActivityMainBinding;
+import com.example.kickmyb.http.Network;
 import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
 
@@ -77,9 +78,13 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<SigninResponse> call, Throwable t) {
-                        //Log.i("RETROFIT", t.getMessage());
                         progressD.dismiss();
-                        Toast.makeText(MainActivity.this, getResources().getString(R.string.error) , Toast.LENGTH_SHORT).show();
+                        if (!Network.isInternetConnected(MainActivity.this)) {
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.internet) , Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

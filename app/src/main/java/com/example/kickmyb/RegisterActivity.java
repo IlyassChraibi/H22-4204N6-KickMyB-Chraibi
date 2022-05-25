@@ -10,11 +10,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.kickmyb.databinding.ActivityRegisterBinding;
+import com.example.kickmyb.http.Network;
 import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
 
 import org.kickmyb.transfer.SigninResponse;
 import org.kickmyb.transfer.SignupRequest;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,20 +59,32 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.i("reponse",response.body().toString());
                         }
                         else {
-                            if (response.code() == 403){
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.exist) , Toast.LENGTH_LONG).show();
+                            try {
+                                String reponseMsg = response.errorBody().string();
+                                if (reponseMsg.contains("UsernameAlreadyTaken") ) {
+                                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.exist) , Toast.LENGTH_LONG).show();
+                                }
+                                if (reponseMsg.contains("UsernameTooShort") ) {
+                                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.shor) , Toast.LENGTH_LONG).show();
+                                }
+                                if (reponseMsg.contains("PasswordTooShort") ) {
+                                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.pas) , Toast.LENGTH_LONG).show();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SigninResponse> call, Throwable t) {
-                        //Log.i("RETROFIT", t.getMessage());
                         progressD.dismiss();
-                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.exist) , Toast.LENGTH_LONG).show();
+                        if (!Network.isInternetConnected(RegisterActivity.this)) {
+                            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.internet) , Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(RegisterActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

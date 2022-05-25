@@ -22,12 +22,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.kickmyb.databinding.ActivityCreationBinding;
+import com.example.kickmyb.http.Network;
 import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
 
 import org.kickmyb.transfer.AddTaskRequest;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -129,7 +131,12 @@ public class CreationActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<String> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
+                                if (!Network.isInternetConnected(CreationActivity.this)) {
+                                    Toast.makeText(CreationActivity.this, getResources().getString(R.string.internet) , Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(CreationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                         return true;
@@ -162,7 +169,20 @@ public class CreationActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_log) , Toast.LENGTH_LONG).show();
                                 }
                                 else{
-                                    Toast.makeText(CreationActivity.this, getString(R.string.exist), Toast.LENGTH_SHORT).show();
+                                    try {
+                                        String reponseMsg = response.errorBody().string();
+                                        if (reponseMsg.contains("Existing")) {
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.taskExist) , Toast.LENGTH_LONG).show();
+                                        }
+                                        if (reponseMsg.contains("Empty")) {
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.taskEmpty) , Toast.LENGTH_LONG).show();
+                                        }
+                                        if (reponseMsg.contains("TooShort")) {
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.taskShort) , Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                     }
@@ -171,7 +191,12 @@ public class CreationActivity extends AppCompatActivity {
                     public void onFailure(Call<Void> call, Throwable t) {
                         //Log.i("RETROFIT", t.getMessage());
                         progressD.dismiss();
-                        Toast.makeText(CreationActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        if (!Network.isInternetConnected(CreationActivity.this)) {
+                            Toast.makeText(CreationActivity.this, getResources().getString(R.string.internet) , Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(CreationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

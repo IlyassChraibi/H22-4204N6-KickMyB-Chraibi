@@ -7,9 +7,13 @@
     <string name="wait_msg">Chargement...</string>
     <string name="not_log">Vous n\'êtes pas connectés</string>
 
+    <string name="internet">Pas de connexion internet</string>
+
     <string name="wrong">Mauvais mot de passe ou nom d\'utilisateur</string>
     <string name="error">Une erreur est survenue</string>
-    <string name="exist">Existe déjà</string>
+    <string name="exist">Nom d\'utilisateur existe déjà</string>
+    <string name="shor">Nom d\'utilisateur trop court</string>
+    <string name="pas">Mot de passe trop court</string>
 
     <string name="username">Nom d\'utilisateur</string>
     <string name="password">Mot de passe</string>
@@ -20,6 +24,9 @@
     <string name="percentage">Poucentage à modifier</string>
     <string name="task">Nom de la tâche</string>
     <string name="add">Ajouter</string>
+    <string name="taskExist">Nom de la tâche existe déjà</string>
+    <string name="taskEmpty">Nom de la tâche vide</string>
+    <string name="taskShort">Nom de la tâche trop court</string>
 
     <string name="login">Connexion</string>
     <string name="account">Pas de compte encore ? Créer un compte</string>

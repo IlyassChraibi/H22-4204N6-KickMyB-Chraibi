@@ -8,6 +8,17 @@
     android:layout_height="match_parent"
     tools:openDrawer="start">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent" >
+
  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -47,6 +58,8 @@
         android:layout_marginHorizontal="30dp"
         android:text="@string/add" />
 </LinearLayout>
+    </ScrollView>
+    </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

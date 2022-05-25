@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kickmyb.databinding.ActivityHomeBinding;
+import com.example.kickmyb.http.Network;
 import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
@@ -120,8 +121,12 @@ public class HomeActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(Call<String> call, Throwable t) {
                                 progressD.dismiss();
-                                Log.i("RETROFIT", t.getMessage());
-                                Toast.makeText(HomeActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                                if (!Network.isInternetConnected(HomeActivity.this)) {
+                                    Toast.makeText(HomeActivity.this, getResources().getString(R.string.internet) , Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(HomeActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                         return true;
@@ -161,7 +166,12 @@ public class HomeActivity extends AppCompatActivity {
             public void onFailure(Call<List<HomeItemResponse>> call, Throwable t) {
                 progressD.dismiss();
                 //Log.i("RETROFIT", t.getMessage());
-                Toast.makeText(getApplicationContext(),getResources().getString(R.string.error) , Toast.LENGTH_LONG).show();
+                if (!Network.isInternetConnected(HomeActivity.this)) {
+                    Toast.makeText(HomeActivity.this, getResources().getString(R.string.internet) , Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(HomeActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

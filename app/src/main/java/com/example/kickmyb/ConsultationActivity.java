@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.kickmyb.databinding.ActivityConsultationBinding;
+import com.example.kickmyb.http.Network;
 import com.example.kickmyb.http.RetrofitUtil;
 import com.example.kickmyb.http.Service;
 import com.google.android.material.navigation.NavigationView;
@@ -105,7 +106,12 @@ public class ConsultationActivity extends AppCompatActivity {
                             public void onFailure(Call<String> call, Throwable t) {
                                 //Log.i("RETROFIT", t.getMessage());
                                 progressD.dismiss();
-                                Toast.makeText(ConsultationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                                if (!Network.isInternetConnected(ConsultationActivity.this)) {
+                                    Toast.makeText(ConsultationActivity.this, getResources().getString(R.string.internet) , Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(ConsultationActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                         return true;

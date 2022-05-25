@@ -6,9 +6,13 @@
     <string name="wait_msg">Loading...</string>
     <string name="not_log">You are not logged in</string>
 
+    <string name="internet">No internet connexion</string>
+
     <string name="wrong">Wrong password or username</string>
     <string name="error">An error occured</string>
-    <string name="exist">Already exist</string>
+    <string name="exist">Username already exist</string>
+    <string name="shor">Username too short</string>
+    <string name="pas">Password too short</string>
 
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -18,6 +22,9 @@
 
     <string name="percentage">Percentage to modify</string>
     <string name="task">Task name</string>
+    <string name="taskExist">Task name already exist</string>
+    <string name="taskEmpty">Task name empty</string>
+    <string name="taskShort">Task name too short</string>
     <string name="add">Add</string>
 
     <string name="login">login</string>
